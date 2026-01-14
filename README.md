@@ -4,7 +4,6 @@
 
 **Author:** Mario Trerotola  
 **Affiliation:** University of Salerno  
-**Course:** Economics of Artificial Intelligence  
 **Date:** January 2026
 
 ---
