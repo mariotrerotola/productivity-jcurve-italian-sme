@@ -2,7 +2,7 @@
 # PROPRIETARY DATA - DO NOT REDISTRIBUTE
 # ===========================================
 # AIDA database files (Bureau van Dijk license)
-dati/
+data/
 *.xls
 *.xlsx
 *.csv

@@ -24,7 +24,7 @@ Results validate the J-curve: initial investments reduce TFP ($\gamma_1 = -1.04$
 The dataset employed in this analysis is derived from the **AIDA** database (Bureau van Dijk), covering financial and structural data for Italian companies.
 - **Reference Period**: 2015–2024
 - **Sample Size**: 8,683 manufacturing SMEs (balanced panel)
-- **File**: `dati/Aida_Export_2.xls` (Not included in repository)
+- **File**: `data/Aida_Export_2.xls` (Not included in repository)
 
 > [!IMPORTANT]
 > **Data Access Disclaimer**: The raw dataset is **not included** in this repository due to licensing restrictions imposed by Bureau van Dijk. To replicate the study, researchers must obtain the `AIDA` dataset through their own institutional subscription.
@@ -56,20 +56,20 @@ This repository contains the code, data, and supplementary materials required to
 .
 ├── Tesi_Economia_IA_JCurve.tex    # Main manuscript (LaTeX source)
 ├── references.bib                 # Bibliography file
-├── codice/
+├── code/
 │   ├── main.py                    # Main execution script
 │   └── src/                       # Source modules
 │       ├── config.py              # Configuration & constants
 │       ├── data_loader.py         # Data cleaning & loading
 │       ├── econometrics.py        # TFP & J-Curve estimation
 │       └── visualization.py       # Plotting utilities
-├── dati/
+├── data/
 │   └── (Aida_Export_2.xls)        # Dataset (Not included)
-├── figure/                        # Verification and Results Plots
+├── figures/                       # Verification and Results Plots
 │   ├── fig_jcurve.png             # J-Curve Estimation
 │   ├── fig_geo_boxplots.png       # Regional Heterogeneity
-│   └── fig_sector_bar.png         # Sectoral Analysis
-└── risultati/                     # Regression Logs
+│   ├── fig_sector_bar.png         # Sectoral Analysis
+└── results/                       # Regression Logs
 ```
 
 ---
@@ -89,15 +89,15 @@ pip install pandas numpy statsmodels linearmodels matplotlib seaborn scipy openp
 Execute the primary analysis script located in the `codice` directory:
 
 ```bash
-cd codice
+cd code
 python main.py
 ```
 
 **Process Overview:**
-1.  **Data Preprocessing**: Loads and cleans the raw panel data from `dati/`.
+1.  **Data Preprocessing**: Loads and cleans the raw panel data from `data/`.
 2.  **Estimation**: Performs the Panel Fixed Effects TFP estimation and the subsequent quadratic regression.
-3.  **Reporting**: Outputs summary statistics and regression tables to the console and `risultati/`.
-4.  **Visualization**: Generates vector graphics and saves them to the `figure/` directory.
+3.  **Reporting**: Outputs summary statistics and regression tables to the console and `results/`.
+4.  **Visualization**: Generates vector graphics and saves them to the `figures/` directory.
 
 ### 3. Localization
 The entire codebase, including comments, docstrings, and output logs, has been localized into **English** to ensure international accessibility.

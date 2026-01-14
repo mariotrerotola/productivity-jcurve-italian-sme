@@ -2,9 +2,9 @@ from pathlib import Path
 
 # Path Configurations
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-DATA_DIR = BASE_DIR / 'dati'
-OUTPUT_DIR = BASE_DIR / 'figure'
-RESULTS_DIR = BASE_DIR / 'risultati'
+DATA_DIR = BASE_DIR / 'data'
+OUTPUT_DIR = BASE_DIR / 'figures'
+RESULTS_DIR = BASE_DIR / 'results'
 
 # Data Files
 DATA_FILE = DATA_DIR / 'Aida_Export_2.xls'
