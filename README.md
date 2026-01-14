@@ -24,9 +24,10 @@ Results validate the J-curve: initial investments reduce TFP ($\gamma_1 = -1.04$
 The dataset employed in this analysis is derived from the **AIDA** database (Bureau van Dijk), covering financial and structural data for Italian companies.
 - **Reference Period**: 2015–2024
 - **Sample Size**: 8,683 manufacturing SMEs (balanced panel)
-- **File**: `dati/Aida_Export_2.xls`
+- **File**: `dati/Aida_Export_2.xls` (Not included in repository)
 
-*Note: Access to the raw data may be subject to subscription restrictions by Bureau van Dijk.*
+> [!IMPORTANT]
+> **Data Access Disclaimer**: The raw dataset is **not included** in this repository due to licensing restrictions imposed by Bureau van Dijk. To replicate the study, researchers must obtain the `AIDA` dataset through their own institutional subscription.
 
 ---
 
@@ -56,10 +57,14 @@ This repository contains the code, data, and supplementary materials required to
 ├── Tesi_Economia_IA_JCurve.tex    # Main manuscript (LaTeX source)
 ├── references.bib                 # Bibliography file
 ├── codice/
-│   ├── main.py                    # Main execution script (Python)
-│   └── src/                       # Source modules (config, data_loader, econometrics, visualization)
+│   ├── main.py                    # Main execution script
+│   └── src/                       # Source modules
+│       ├── config.py              # Configuration & constants
+│       ├── data_loader.py         # Data cleaning & loading
+│       ├── econometrics.py        # TFP & J-Curve estimation
+│       └── visualization.py       # Plotting utilities
 ├── dati/
-│   └── Aida_Export_2.xls          # Dataset
+│   └── (Aida_Export_2.xls)        # Dataset (Not included)
 ├── figure/                        # Verification and Results Plots
 │   ├── fig_jcurve.png             # J-Curve Estimation
 │   ├── fig_geo_boxplots.png       # Regional Heterogeneity
@@ -96,26 +101,6 @@ python main.py
 
 ### 3. Localization
 The entire codebase, including comments, docstrings, and output logs, has been localized into **English** to ensure international accessibility.
-
----
-
-## Citation
-
-Please cite this work as follows:
-
-**Text:**
-Trerotola, M. (2026). *The Impact of Digital Technologies on Productivity: An Empirical Analysis of the J-Curve in Italian SMEs*. University of Salerno.
-
-**BibTeX:**
-```bibtex
-@misc{trerotola2026jcurve,
-  author       = {Mario Trerotola},
-  title        = {The Impact of Digital Technologies on Productivity: An Empirical Analysis of the J-Curve in Italian SMEs},
-  year         = {2026},
-  institution  = {University of Salerno},
-  note         = {Replication Package}
-}
-```
 
 ---
 
