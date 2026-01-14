@@ -1,0 +1,18 @@
+VALORI PER IL PAPER
+========================================
+
+N. Osservazioni:     82,884
+N. Imprese:          8,736
+Tech Intensity Mean: 0.034
+Tech Intensity SD:   0.064
+
+--- MODELLO PRINCIPALE ---
+γ₁ (TechIntensity):  -1.038
+γ₂ (Tech²):          3.109
+Turning Point:       16.7%
+Coeff. Sud:          0.029
+
+--- ROBUSTNESS: LAGGED VARIABLES ---
+γ₁ (Tech_lag1):      -0.976
+γ₂ (Tech²_lag1):     3.146
+Turning Point (lag): 15.5%
