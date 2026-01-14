@@ -1,43 +1,94 @@
 # ===========================================
-# PROPRIETARY DATA - DO NOT REDISTRIBUTE
+# SENSITIVE & PROPRIETARY DATA
 # ===========================================
 # AIDA database files (Bureau van Dijk license)
 data/
 *.xls
 *.xlsx
 *.csv
+*.dta
+
+# System Environment
+.env
+.env.local
 
 # ===========================================
-# LaTeX build artifacts
+# PYTHON
 # ===========================================
-*.aux
-*.log
-*.bbl
-*.blg
-*.bcf
-*.run.xml
-*.out
-*.toc
-*.lof
-*.lot
-*.fls
-*.fdb_latexmk
-*.synctex.gz
-
-# ===========================================
-# Python
-# ===========================================
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-*.so
-.venv/
+*$py.class
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environments
 venv/
-.env
+.venv/
+env/
+.env/
+
+# Jupyter Notebooks
+.ipynb_checkpoints
 
 # ===========================================
-# OS files
+# LATEX
 # ===========================================
-.DS_Store
-Thumbs.db
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.brf
+*.dvi
+*.fdb_latexmk
+*.fls
+*.idx
+*.ilg
+*.ind
+*.lof
+*.log
+*.lot
+*.nav
+*.out
+*.ps
+*.snm
+*.synctex.gz
+*.toc
+*.vrb
+*.run.xml
+*.xdv
+
+# ===========================================
+# PRIVATE MANUSCRIPT FILES
+# ===========================================
 Tesi_Economia_IA_JCurve.tex
 references.bib
+
+# ===========================================
+# OS / EDITOR FILES
+# ===========================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.vscode/
+.idea/
