@@ -11,11 +11,11 @@
 
 ## Abstract
 
-Although the “Productivity J-Curve” hypothesis has been widely examined for large US firms, there is still limited empirical evidence for Small and Medium-sized Enterprises (SMEs). This paper broadens the theoretical framework to an economy largely composed of SMEs and offers new evidence on the impact of digital and AI-related investments on productivity in Italy’s manufacturing sector.
+While the “Productivity J-Curve” hypothesis is well-documented for large US firms, empirical evidence for Small and Medium-sized Enterprises remains scarce. This paper extends the framework to Italian manufacturing SMEs, using a two-stage Panel Fixed Effects model on a balanced panel of 8,683 firms from AIDA (2015–2024).
 
-We employ a two-stage Panel Fixed Effects econometric framework on a balanced panel of more than 8,600 Italian SMEs sourced from the AIDA database (2015–2024). In the first stage, we derive Total Factor Productivity (TFP) as the residual from a Cobb–Douglas production function. In the second stage, we regress this measure on Technological Intensity, specified in quadratic form to capture potential non-linear effects. A Hausman test supports the choice of Fixed Effects over Random Effects specification.
+In the first stage, Total Factor Productivity is derived as the residual from a Cobb–Douglas production function. The second stage regresses TFP on Technological Intensity in quadratic form. A Hausman test ($H=49.35$, $p<0.001$) confirms the appropriateness of Fixed Effects.
 
-The results validate the presence of a J-curve: early-stage investments are associated with a temporary drop in TFP ($\gamma_1 = -1.04$), whereas returns turn positive only once investment intensity exceeds 14.6\% ($\gamma_2 = +3.58$). Regarding regional heterogeneity, Southern SMEs do not display any statistically significant productivity disadvantage compared to the rest of the country, challenging the traditional narrative of a North-South divide. Overall, the findings suggest that industrial policy should prioritize intangible capital accumulation over exclusive hardware subsidies.
+Results validate the J-curve: initial investments reduce TFP ($\gamma_1 = -1.04$), with returns turning positive only beyond 14.6\% intensity ($\gamma_2 = +3.58$). Regarding regional heterogeneity, we find no robust productivity disadvantage for Southern SMEs, challenging the traditional North–South divide narrative. These findings suggest that policy should prioritize intangible capital accumulation over hardware subsidies, and that the “Solow Paradox” in Italy reflects delayed adjustment costs rather than technological failure.
 
 ---
 
@@ -56,7 +56,8 @@ This repository contains the code, data, and supplementary materials required to
 ├── Tesi_Economia_IA_JCurve.tex    # Main manuscript (LaTeX source)
 ├── references.bib                 # Bibliography file
 ├── codice/
-│   └── analisi_jcurve.py          # Econometric analysis script (Python)
+│   ├── main.py                    # Main execution script (Python)
+│   └── src/                       # Source modules (config, data_loader, econometrics, visualization)
 ├── dati/
 │   └── Aida_Export_2.xls          # Dataset
 ├── figure/                        # Verification and Results Plots
@@ -84,7 +85,7 @@ Execute the primary analysis script located in the `codice` directory:
 
 ```bash
 cd codice
-python analisi_jcurve.py
+python main.py
 ```
 
 **Process Overview:**
@@ -92,6 +93,9 @@ python analisi_jcurve.py
 2.  **Estimation**: Performs the Panel Fixed Effects TFP estimation and the subsequent quadratic regression.
 3.  **Reporting**: Outputs summary statistics and regression tables to the console and `risultati/`.
 4.  **Visualization**: Generates vector graphics and saves them to the `figure/` directory.
+
+### 3. Localization
+The entire codebase, including comments, docstrings, and output logs, has been localized into **English** to ensure international accessibility.
 
 ---
 
