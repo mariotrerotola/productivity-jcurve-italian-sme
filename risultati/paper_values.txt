@@ -1,18 +1,40 @@
 VALORI PER IL PAPER
 ========================================
 
-N. Osservazioni:     82,884
-N. Imprese:          8,736
-Tech Intensity Mean: 0.034
-Tech Intensity SD:   0.064
+N. Osservazioni:     86,880
+N. Imprese:          8,683
+Tech Intensity Mean: 0.031
+Tech Intensity SD:   0.059
 
 --- MODELLO PRINCIPALE ---
-γ₁ (TechIntensity):  -1.038
-γ₂ (Tech²):          3.109
-Turning Point:       16.7%
-Coeff. Sud:          0.029
+γ₁ (TechIntensity):  -1.043
+γ₂ (Tech²):          3.582
+Turning Point:       14.6%
+Coeff. Sud:          0.016
 
 --- ROBUSTNESS: LAGGED VARIABLES ---
-γ₁ (Tech_lag1):      -0.976
-γ₂ (Tech²_lag1):     3.146
-Turning Point (lag): 15.5%
+γ₁ (Tech_lag1):      -0.982
+γ₂ (Tech²_lag1):     3.509
+Turning Point (lag): 14.0%
+
+--- BOOTSTRAP STANDARD ERRORS (Generated Regressor Correction) ---
+N. Replications:      50
+
+γ₁ (TechIntensity):
+  Clustered SE:      0.0972
+  Bootstrap SE:      0.0939  (ratio: 0.97x)
+  95% CI:            [-1.1824, -0.8530]
+  p-value (boot):    0.0000
+
+γ₂ (Tech²):
+  Clustered SE:      0.3646
+  Bootstrap SE:      0.3608  (ratio: 0.99x)
+  95% CI:            [2.8440, 4.2062]
+  p-value (boot):    0.0000
+
+Turning Point:
+  Point Estimate:    14.6%
+  Bootstrap SE:      0.7%
+  95% CI:            [13.3%, 15.7%]
+
+J-Curve Robust (CI excludes zero): YES
