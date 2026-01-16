@@ -10,11 +10,7 @@
 
 ## Abstract
 
-While the “Productivity J-Curve” hypothesis is well-documented for large US firms, empirical evidence for Small and Medium-sized Enterprises remains scarce. This paper extends the framework to Italian manufacturing SMEs, using a two-stage Panel Fixed Effects model on a balanced panel of 8,683 firms from AIDA (2015–2024).
-
-In the first stage, Total Factor Productivity is derived as the residual from a Cobb–Douglas production function. The second stage regresses TFP on Technological Intensity in quadratic form. A Hausman test ($H=49.35$, $p<0.001$) confirms the appropriateness of Fixed Effects.
-
-Results validate the J-curve: initial investments reduce TFP ($\gamma_1 = -1.04$), with returns turning positive only beyond 14.6\% intensity ($\gamma_2 = +3.58$). Regarding regional heterogeneity, we find no robust productivity disadvantage for Southern SMEs, challenging the traditional North–South divide narrative. These findings suggest that policy should prioritize intangible capital accumulation over hardware subsidies, and that the “Solow Paradox” in Italy reflects delayed adjustment costs rather than technological failure.
+The “Productivity J-Curve” hypothesis posits that digital investments initially depress productivity before generating positive returns. Existing empirical evidence is largely confined to large publicly traded firms in the United States, with limited evidence for Small and Medium-sized Enterprises (SMEs). Using a balanced panel of 7,478 Italian manufacturing firms (2015–2024) from the AIDA database, we implement a two-stage Fixed Effects estimation strategy. First, we derive Total Factor Productivity from a Cobb–Douglas production function. Second, we regress TFP on technological intensity (intangible assets over total assets) in quadratic form, including regional interaction terms to test distinct North-South dynamics. Results confirm the J-Curve pattern: $\gamma_1 = -1.02$ ($p<0.001$) and $\gamma_2 = +3.69$ ($p<0.001$), with a turning point at 13.8% technological intensity. With a sample mean intensity of 3.1%, the findings indicate that the majority of Italian SMEs operate below the turning point, in the adjustment-cost phase. Crucially, interaction terms between technological intensity and the South dummy are statistically insignificant (Tech×South: $p=0.77$; Tech²×South: $p=0.70$), demonstrating that the productivity-technology relationship does not differ by region. This finding supports a *competitive selection* hypothesis: surviving Southern firms exhibit efficiency levels comparable to their Northern counterparts, suggesting that aggregate disparities reflect lower adoption intensity rather than intrinsic inefficiency.
 
 ---
 
@@ -22,7 +18,7 @@ Results validate the J-curve: initial investments reduce TFP ($\gamma_1 = -1.04$
 
 The dataset employed in this analysis is derived from the **AIDA** database (Bureau van Dijk), covering financial and structural data for Italian companies.
 - **Reference Period**: 2015–2024
-- **Sample Size**: 8,683 manufacturing SMEs (balanced panel)
+- **Sample Size**: 7,478 manufacturing SMEs (balanced panel)
 - **File**: `data/Aida_Export_2.xls` (Not included in repository)
 
 > [!IMPORTANT]
@@ -41,9 +37,9 @@ The empirical strategy follows a robust two-stage approach:
     $$ \hat{\omega}_{it} = \alpha + \gamma_1 Tech_{it} + \gamma_2 Tech_{it}^2 + \mathbf{Controls} + \eta_{it} $$
 
 ### Main Findings
-*   **Initial Impact**: $\gamma_1 = -1.04$ (Significant TFP decline in early adoption phases)
-*   **Long-term Recovery**: $\gamma_2 = +3.58$ (Positive returns at higher intensity levels)
-*   **Turning Point**: The inflection point is estimated at **14.6%** Technological Intensity.
+*   **Initial Impact**: $\gamma_1 = -1.02$ (Significant TFP decline in early adoption phases)
+*   **Long-term Recovery**: $\gamma_2 = +3.69$ (Positive returns at higher intensity levels)
+*   **Turning Point**: The inflection point is estimated at **13.8%** Technological Intensity.
 
 ---
 

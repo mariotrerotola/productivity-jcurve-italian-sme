@@ -63,18 +63,22 @@ def plot_jcurve(model, df):
 
 
 def plot_geo_boxplots(df):
-    """TFP and Labor Productivity Boxplots by geographic area - Academic Style."""
+    """TFP and Labor Productivity Boxplots by geographic area - Academic Style (Binary: Center-North vs South)."""
     set_style()
-    fig, axes = plt.subplots(1, 2, figsize=(14, 6))
+    fig, axes = plt.subplots(1, 2, figsize=(12, 6))
     fig.patch.set_facecolor('white')
     
-    order = ['Nord', 'Centro', 'Sud']
-    palette = {'Nord': ACADEMIC_COLORS[0], 'Centro': ACADEMIC_COLORS[1], 'Sud': ACADEMIC_COLORS[2]}
+    # Create binary region classification
+    df = df.copy()
+    df['Region'] = df['MacroArea'].apply(lambda x: 'South' if x == 'Sud' else 'Center-North')
+    
+    order = ['Center-North', 'South']
+    palette = {'Center-North': ACADEMIC_COLORS[0], 'South': ACADEMIC_COLORS[2]}
     
     # Plot 1: TFP
     ax1 = axes[0]
     ax1.set_facecolor('white')
-    sns.boxplot(data=df, x='MacroArea', y='TFP', order=order, palette=palette, ax=ax1,
+    sns.boxplot(data=df, x='Region', y='TFP', order=order, palette=palette, ax=ax1,
                       linewidth=1.5, flierprops={'marker': 'o', 'markersize': 3, 'alpha': 0.5})
     ax1.set_xlabel('Geographic Area', fontsize=12, fontweight='medium')
     ax1.set_ylabel('Total Factor Productivity (TFP)', fontsize=12, fontweight='medium')
@@ -85,7 +89,7 @@ def plot_geo_boxplots(df):
     # Plot 2: Labor Productivity
     ax2 = axes[1]
     ax2.set_facecolor('white')
-    sns.boxplot(data=df, x='MacroArea', y='LaborProd', order=order, palette=palette, ax=ax2,
+    sns.boxplot(data=df, x='Region', y='LaborProd', order=order, palette=palette, ax=ax2,
                       linewidth=1.5, flierprops={'marker': 'o', 'markersize': 3, 'alpha': 0.5})
     ax2.set_xlabel('Geographic Area', fontsize=12, fontweight='medium')
     ax2.set_ylabel('Labor Productivity (Y/L)', fontsize=12, fontweight='medium')

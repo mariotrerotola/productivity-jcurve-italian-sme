@@ -122,6 +122,20 @@ def load_and_clean_data():
     print(f"✓ {df['firm_id'].nunique():,} firms with 10 complete years")
     print(f"✓ Period: {df['Year'].min()}-{df['Year'].max()}")
     
+    # =========================================================================
+    # YEAR FILTER: Restrict to 2015-2024 as stated in the thesis
+    # =========================================================================
+    print("\nApplying year filter (2015-2024)...")
+    df = df[(df['Year'] >= 2015) & (df['Year'] <= 2024)].copy()
+    
+    # Re-check balanced panel after year filter
+    years_per_firm = df.groupby('firm_id')['Year'].nunique()
+    firms_with_10_years = years_per_firm[years_per_firm == 10].index
+    df = df[df['firm_id'].isin(firms_with_10_years)].copy()
+    
+    print(f"✓ Final Panel: {len(df):,} firm-year observations")
+    print(f"✓ {df['firm_id'].nunique():,} firms with complete 2015-2024 data")
+    
     return df
 
 def prepare_variables(df):

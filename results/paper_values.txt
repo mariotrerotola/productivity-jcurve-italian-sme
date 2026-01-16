@@ -1,40 +1,45 @@
-VALORI PER IL PAPER
+VALUES FOR THE PAPER
 ========================================
 
-N. Osservazioni:     86,880
-N. Imprese:          8,683
+N. Observations:     74,830
+N. Firms:            7,478
 Tech Intensity Mean: 0.031
-Tech Intensity SD:   0.059
+Tech Intensity SD:   0.058
 
---- MODELLO PRINCIPALE ---
-γ₁ (TechIntensity):  -1.043
-γ₂ (Tech²):          3.582
-Turning Point:       14.6%
-Coeff. Sud:          0.016
+--- MAIN MODEL (Center-North Baseline) ---
+γ₁ (Tech):           -1.020
+γ₂ (Tech²):          3.693
+Turning Point (CN):  13.8%
+
+--- REGIONAL INTERACTIONS (South Deviation) ---
+IsSouth Dummy:       0.006
+Tech * South:        -0.080
+Tech² * South:       0.394
+Turning Point (South): 13.5%
 
 --- ROBUSTNESS: LAGGED VARIABLES ---
-γ₁ (Tech_lag1):      -0.982
-γ₂ (Tech²_lag1):     3.509
-Turning Point (lag): 14.0%
+γ₁ (Tech_lag1):      -0.943
+γ₂ (Tech²_lag1):     3.534
+Turning Point (lag): 13.3%
 
 --- BOOTSTRAP STANDARD ERRORS (Generated Regressor Correction) ---
-N. Replications:      50
+N. Replications:      500
 
 γ₁ (TechIntensity):
-  Clustered SE:      0.0972
-  Bootstrap SE:      0.0939  (ratio: 0.97x)
-  95% CI:            [-1.1824, -0.8530]
+  Clustered SE:      0.1174
+  Bootstrap SE:      0.1216  (ratio: 1.04x)
+  95% CI:            [-1.2552, -0.7959]
   p-value (boot):    0.0000
 
 γ₂ (Tech²):
-  Clustered SE:      0.3646
-  Bootstrap SE:      0.3608  (ratio: 0.99x)
-  95% CI:            [2.8440, 4.2062]
+  Clustered SE:      0.4503
+  Bootstrap SE:      0.4559  (ratio: 1.01x)
+  95% CI:            [2.8296, 4.5916]
   p-value (boot):    0.0000
 
-Turning Point:
-  Point Estimate:    14.6%
-  Bootstrap SE:      0.7%
-  95% CI:            [13.3%, 15.7%]
+Turning Point (Baseline):
+  Point Estimate:    13.8%
+  Bootstrap SE:      0.8%
+  95% CI:            [12.5%, 15.5%]
 
 J-Curve Robust (CI excludes zero): YES

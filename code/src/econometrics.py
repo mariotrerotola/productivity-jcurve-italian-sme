@@ -63,22 +63,25 @@ def estimate_tfp_panel_fe(df):
 
 def estimate_jcurve(df):
     """
-    Estimates the J-Curve relationship (TFP ~ Tech + Tech^2 + Controls).
-    Model: Pooled OLS with clustered SE and geographic dummies.
+    Estimates the J-Curve relationship (TFP ~ Tech + Tech^2 + Interactions).
+    Model: Pooled OLS with clustered SE and North-South interactions.
     """
     print("\n" + "=" * 60)
-    print("STEP 4: J-CURVE ESTIMATION")
+    print("STEP 4: J-CURVE ESTIMATION (WITH INTERACTIONS)")
     print("=" * 60)
     
     # Variables
     df['Tech_Sq'] = df['TechIntensity'] ** 2
     
-    # Geographic Dummies
-    df['Nord'] = (df['MacroArea'] == 'Nord').astype(int)
-    df['Sud'] = (df['MacroArea'] == 'Sud').astype(int)
-    # Center is baseline (omitted)
+    # Geographic Dummy: South vs Center-North (Baseline)
+    # 1 = South, 0 = North or Center
+    df['IsSouth'] = (df['MacroArea'] == 'Sud').astype(int)
     
-    X = df[['TechIntensity', 'Tech_Sq', 'Nord', 'Sud']]
+    # Interaction terms
+    df['Tech_South'] = df['TechIntensity'] * df['IsSouth']
+    df['Tech_Sq_South'] = df['Tech_Sq'] * df['IsSouth']
+    
+    X = df[['TechIntensity', 'Tech_Sq', 'IsSouth', 'Tech_South', 'Tech_Sq_South']]
     X = sm.add_constant(X)
     
     # Add year dummies for time control
@@ -90,27 +93,40 @@ def estimate_jcurve(df):
     # OLS Estimation with Cluster SE (Firm level)
     model = sm.OLS(y, X).fit(cov_type='cluster', cov_kwds={'groups': df['firm_id']})
     
-    # Extract key results
+    # Extract key results (Baseline = Center-North)
     gamma1 = model.params['TechIntensity']
     gamma2 = model.params['Tech_Sq']
-    coef_sud = model.params['Sud']
     
-    # Calculate Turning Point (-b / 2a)
+    # South coefficients (Main effect + Interactions)
+    coef_is_south = model.params['IsSouth']
+    gamma1_south_diff = model.params['Tech_South']
+    gamma2_south_diff = model.params['Tech_Sq_South']
+    
+    # Calculate Turning Point (-b / 2a) for Baseline (Center-North)
     min_point = -gamma1 / (2 * gamma2)
     
-    print("\n--- J-Curve Coefficients ---")
+    # Calculate Turning Point for South (gamma1 + gamma1_diff) / 2(gamma2 + gamma2_diff)
+    gamma1_total_south = gamma1 + gamma1_south_diff
+    gamma2_total_south = gamma2 + gamma2_south_diff
+    min_point_south = -gamma1_total_south / (2 * gamma2_total_south)
+    
+    print("\n--- J-Curve Coefficients (Baseline: Center-North) ---")
     print(f"γ₁ (Tech):      {gamma1:.4f} (SE: {model.bse['TechIntensity']:.4f}, p={model.pvalues['TechIntensity']:.4f})")
     print(f"γ₂ (Tech²):     {gamma2:.4f} (SE: {model.bse['Tech_Sq']:.4f}, p={model.pvalues['Tech_Sq']:.4f})")
-    print(f"North:          {model.params['Nord']:.4f} (p={model.pvalues['Nord']:.4f})")
-    print(f"South:          {coef_sud:.4f} (p={model.pvalues['Sud']:.4f})")
+    print(f"IsSouth (Dummy):{coef_is_south:.4f} (p={model.pvalues['IsSouth']:.4f})")
     
-    print("\n--- Turning Point ---")
-    print(f"Min Point:      {min_point:.4f} ({min_point*100:.1f}%)")
+    print("\n--- Interactions (Difference South vs Baseline) ---")
+    print(f"Tech * South:   {gamma1_south_diff:.4f} (p={model.pvalues['Tech_South']:.4f})")
+    print(f"Tech² * South:  {gamma2_south_diff:.4f} (p={model.pvalues['Tech_Sq_South']:.4f})")
+    
+    print("\n--- Turning Points ---")
+    print(f"Center-North:   {min_point:.4f} ({min_point*100:.1f}%)")
+    print(f"South:          {min_point_south:.4f} ({min_point_south*100:.1f}%)")
     
     is_jcurve = (gamma1 < 0) and (gamma2 > 0)
-    print(f"\n✓ J-Curve confirmed: {'YES' if is_jcurve else 'NO'}")
+    print(f"\n✓ J-Curve confirmed (Baseline): {'YES' if is_jcurve else 'NO'}")
     
-    return model, gamma1, gamma2, min_point, coef_sud
+    return model, gamma1, gamma2, min_point, coef_is_south, gamma1_south_diff, gamma2_south_diff, min_point_south
 
 def run_robustness_checks(df):
     """
@@ -130,7 +146,12 @@ def run_robustness_checks(df):
     upper = df['TFP'].quantile(0.95)
     df_trim = df[(df['TFP'] >= lower) & (df['TFP'] <= upper)].copy()
     
-    X_trim = sm.add_constant(df_trim[['TechIntensity', 'Tech_Sq', 'Nord', 'Sud']])
+    df_trim['IsSouth'] = (df_trim['MacroArea'] == 'Sud').astype(int)
+    df_trim['Tech_South'] = df_trim['TechIntensity'] * df_trim['IsSouth']
+    df_trim['Tech_Sq_South'] = df_trim['Tech_Sq'] * df_trim['IsSouth']
+    
+    X_trim = df_trim[['TechIntensity', 'Tech_Sq', 'IsSouth', 'Tech_South', 'Tech_Sq_South']]
+    X_trim = sm.add_constant(X_trim)
     y_trim = df_trim['TFP']
     res_trim = sm.OLS(y_trim, X_trim).fit(cov_type='cluster', cov_kwds={'groups': df_trim['firm_id']})
     
@@ -143,9 +164,16 @@ def run_robustness_checks(df):
     df_lag = df.copy().sort_values(['firm_id', 'Year'])
     df_lag['TechIntensity_lag1'] = df_lag.groupby('firm_id')['TechIntensity'].shift(1)
     df_lag['Tech_Sq_lag'] = df_lag['TechIntensity_lag1'] ** 2
+    # Re-create interaction lags
+    df_lag['IsSouth'] = (df_lag['MacroArea'] == 'Sud').astype(int)
+    df_lag['Tech_South_lag'] = df_lag['TechIntensity_lag1'] * df_lag['IsSouth']
+    df_lag['Tech_Sq_South_lag'] = df_lag['Tech_Sq_lag'] * df_lag['IsSouth']
+    
     df_lag = df_lag.dropna(subset=['TechIntensity_lag1'])
     
-    X_lag = sm.add_constant(df_lag[['TechIntensity_lag1', 'Tech_Sq_lag', 'Nord', 'Sud']])
+    X_lag = df_lag[['TechIntensity_lag1', 'Tech_Sq_lag', 'IsSouth', 'Tech_South_lag', 'Tech_Sq_South_lag']]
+    X_lag = sm.add_constant(X_lag)
+    
     dummies_year_lag = pd.get_dummies(df_lag['Year'], prefix='Y', drop_first=True)
     X_lag = pd.concat([X_lag, dummies_year_lag.astype(int)], axis=1)
     
@@ -217,10 +245,14 @@ def bootstrap_two_stage(df, n_bootstrap=500, seed=42):
     # Original Stage 2
     df_orig['TFP_orig'] = df_orig['ln_Y'] - (beta_L_orig * df_orig['ln_L'] + beta_K_orig * df_orig['ln_K'])
     df_orig['Tech_Sq'] = df_orig['TechIntensity'] ** 2
-    df_orig['Nord'] = (df_orig['MacroArea'] == 'Nord').astype(int)
-    df_orig['Sud'] = (df_orig['MacroArea'] == 'Sud').astype(int)
     
-    X_orig = sm.add_constant(df_orig[['TechIntensity', 'Tech_Sq', 'Nord', 'Sud']])
+    df_orig['IsSouth'] = (df_orig['MacroArea'] == 'Sud').astype(int)
+    df_orig['Tech_South'] = df_orig['TechIntensity'] * df_orig['IsSouth']
+    df_orig['Tech_Sq_South'] = df_orig['Tech_Sq'] * df_orig['IsSouth']
+
+    X_orig = df_orig[['TechIntensity', 'Tech_Sq', 'IsSouth', 'Tech_South', 'Tech_Sq_South']]
+    X_orig = sm.add_constant(X_orig)
+    
     dummies_year = pd.get_dummies(df_orig['Year'], prefix='Y', drop_first=True).astype(int)
     X_orig = pd.concat([X_orig, dummies_year], axis=1)
     
@@ -273,10 +305,14 @@ def bootstrap_two_stage(df, n_bootstrap=500, seed=42):
             
             # Stage 2: J-Curve on bootstrap data
             df_boot['Tech_Sq'] = df_boot['TechIntensity'] ** 2
-            df_boot['Nord'] = (df_boot['MacroArea'] == 'Nord').astype(int)
-            df_boot['Sud'] = (df_boot['MacroArea'] == 'Sud').astype(int)
             
-            X_boot = sm.add_constant(df_boot[['TechIntensity', 'Tech_Sq', 'Nord', 'Sud']])
+            df_boot['IsSouth'] = (df_boot['MacroArea'] == 'Sud').astype(int)
+            df_boot['Tech_South'] = df_boot['TechIntensity'] * df_boot['IsSouth']
+            df_boot['Tech_Sq_South'] = df_boot['Tech_Sq'] * df_boot['IsSouth']
+            
+            X_boot = df_boot[['TechIntensity', 'Tech_Sq', 'IsSouth', 'Tech_South', 'Tech_Sq_South']]
+            X_boot = sm.add_constant(X_boot)
+            
             dummies_year_boot = pd.get_dummies(df_boot['Year'], prefix='Y', drop_first=True).astype(int)
             X_boot = pd.concat([X_boot, dummies_year_boot], axis=1)
             
